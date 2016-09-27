@@ -21,6 +21,7 @@ func main() {
 	log.Println("[INFO]", "bye!")
 }
 
+// TODO remove this, only for shows
 func listenToTheRadio(lol string, r ticker.TickChan) {
 	for {
 		tick := <-r.C
