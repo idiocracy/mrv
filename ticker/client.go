@@ -30,6 +30,9 @@ func New(broadcaster Broadcaster) error {
 	err = c.Subscribe(POLONIEX_WEBSOCKET_TICKER, func(args []interface{}, kwargs map[string]interface{}) {
 		broadcaster.Write(Ticker{args[0].(string)})
 	})
+	if err != nil {
+		return fmt.Errorf("Subscription to %v failed: %v", POLONIEX_WEBSOCKET_TICKER, err)
+	}
 
 	<-c.ReceiveDone
 	return nil
