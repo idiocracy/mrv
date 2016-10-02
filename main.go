@@ -16,14 +16,14 @@ func main() {
 
 	radio := ts.B.Listen()
 
-	go listenToTheRadio("radio", radio)
+	go listenToTheRadio(radio)
 
 	<-ts.RecieveDone
 	log.Println("[INFO]", "bye!")
 }
 
 // TODO remove this, only for shows
-func listenToTheRadio(lol string, r streams.TickChan) {
+func listenToTheRadio(r streams.TickChan) {
 	for {
 		tick := <-r.C
 		fmt.Println(tick)
