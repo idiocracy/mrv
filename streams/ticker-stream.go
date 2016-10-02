@@ -21,7 +21,7 @@ type TickerStream struct {
 
 // NewTickerStream connects to the Poloniex 'ticker' firehose.
 func NewTickerStream() (ts TickerStream, err error) {
-	c, err := turnpike.NewWebsocketClient(turnpike.JSON, poloniexWebsocketTopic, nil)
+	c, err := turnpike.NewWebsocketClient(turnpike.JSON, poloniexWebsocketAddress, nil)
 	if err != nil {
 		return ts, fmt.Errorf("Unable to open websocket: %v", err)
 	}
