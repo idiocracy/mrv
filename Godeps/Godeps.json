@@ -2,5 +2,19 @@
 	"ImportPath": "github.com/idiocracy/mrv",
 	"GoVersion": "go1.6",
 	"GodepVersion": "v60",
-	"Deps": []
+	"Deps": [
+		{
+			"ImportPath": "github.com/gorilla/websocket",
+			"Comment": "v1.0.0-21-g2d1e454",
+			"Rev": "2d1e4548da234d9cb742cc3628556fef86aafbac"
+		},
+		{
+			"ImportPath": "github.com/ugorji/go/codec",
+			"Rev": "b7eff9abce531d6aeda923e759ae668e56601d21"
+		},
+		{
+			"ImportPath": "gopkg.in/jcelliott/turnpike.v2",
+			"Rev": "65eb3bacd2852f9554a44d7d1b60a91fdb26fe67"
+		}
+	]
 }
