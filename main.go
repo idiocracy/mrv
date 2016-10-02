@@ -4,27 +4,28 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/idiocracy/mrv/ticker"
+	"github.com/idiocracy/mrv/streams"
 )
 
 func main() {
-	broadcaster := ticker.NewBroadcaster()
-	radio := broadcaster.Listen()
-	tv := broadcaster.Listen()
-	go listenToTheRadio("radio", radio)
-	go listenToTheRadio("tv", tv)
-	err := ticker.New(broadcaster)
+	ts, err := streams.NewTickerStream()
+
 	if err != nil {
 		log.Println("[ERROR]", err)
 	}
 
+	radio := ts.B.Listen()
+
+	go listenToTheRadio("radio", radio)
+
+	<-ts.RecieveDone
 	log.Println("[INFO]", "bye!")
 }
 
 // TODO remove this, only for shows
-func listenToTheRadio(lol string, r ticker.TickChan) {
+func listenToTheRadio(lol string, r streams.TickChan) {
 	for {
 		tick := <-r.C
-		fmt.Println(lol, tick)
+		fmt.Println(tick)
 	}
 }
