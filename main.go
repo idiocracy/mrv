@@ -9,12 +9,11 @@ import (
 
 func main() {
 	ts, err := streams.NewTickerStream()
-
 	if err != nil {
 		log.Println("[ERROR]", err)
 	}
 
-	radio := ts.B.Listen()
+	radio := ts.Subscribe()
 
 	go listenToTheRadio(radio)
 
