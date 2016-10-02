@@ -13,28 +13,6 @@ type Window struct {
 	state  slidingWindow
 }
 
-type slidingWindow map[string]map[time.Time]streams.Ticker
-
-func (sw slidingWindow) addTick(tick streams.Ticker) {
-	if ticks, ok := sw[tick.CurrencyPair]; ok {
-		ticks[time.Now()] = tick
-	} else {
-		ticks := make(map[time.Time]streams.Ticker)
-		ticks[time.Now()] = tick
-		sw[tick.CurrencyPair] = ticks
-	}
-}
-
-func (sw slidingWindow) assertRetention(retention time.Duration) {
-	for _, ticks := range sw {
-		for added := range ticks {
-			if time.Since(added) > retention {
-				delete(ticks, added)
-			}
-		}
-	}
-}
-
 // New creates a window aggregator.
 // Takes a Ticker channel and a window size as input
 func New(stream chan streams.Ticker, size time.Duration) Window {
@@ -75,4 +53,26 @@ func (w Window) GetCurrencyPair(cp string) (t []streams.Ticker) {
 		}
 	}
 	return
+}
+
+type slidingWindow map[string]map[time.Time]streams.Ticker
+
+func (sw slidingWindow) addTick(tick streams.Ticker) {
+	if ticks, ok := sw[tick.CurrencyPair]; ok {
+		ticks[time.Now()] = tick
+	} else {
+		ticks := make(map[time.Time]streams.Ticker)
+		ticks[time.Now()] = tick
+		sw[tick.CurrencyPair] = ticks
+	}
+}
+
+func (sw slidingWindow) assertRetention(retention time.Duration) {
+	for _, ticks := range sw {
+		for added := range ticks {
+			if time.Since(added) > retention {
+				delete(ticks, added)
+			}
+		}
+	}
 }
