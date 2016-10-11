@@ -3,6 +3,7 @@ package streams
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 
 	"gopkg.in/jcelliott/turnpike.v2"
 )
@@ -45,6 +46,20 @@ func handleOrder() turnpike.EventHandler {
 				return
 			}
 			json.Unmarshal([]byte(str), &order)
+			var data interface{}
+			switch order.Type {
+			case "orderBookRemove":
+				data = new(OrderBookRemove)
+			case "orderBookModify":
+				data = new(OrderBookModify)
+			case "newTrade":
+				data = new(OrderNewTrade)
+			}
+			err = json.Unmarshal(order.Data, data)
+			if err != nil {
+				log.Fatalln("error:", err)
+			}
+			fmt.Println(order.Type, data)
 			fmt.Println(order)
 		}
 	}

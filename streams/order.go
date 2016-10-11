@@ -1,6 +1,8 @@
 package streams
 
+import "encoding/json"
+
 type Order struct {
-	Data OrderData
+	Data json.RawMessage
 	Type string
 }
