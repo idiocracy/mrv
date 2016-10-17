@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/idiocracy/mrv/streams"
+	"github.com/idiocracy/mrv/window"
 )
 
 func main() {
@@ -19,14 +20,14 @@ func main() {
 		log.Println("[ERROR]", err)
 	}
 
-	// w := window.New(ts.Subscribe().C, time.Minute)
+	w := window.New(ts.Subscribe().C, time.Minute)
 
 	// TODO following block is only to show the Window API
-	for range time.NewTicker(time.Second * 1).C {
-		// fmt.Println(w.ListCurrencyPairs())
-		// fmt.Println(len(w.GetCurrencyPair("ETH_STEEM")))
+	for range time.NewTicker(time.Second * 10).C {
+		fmt.Println(w.ListCurrencyPairs())
+		fmt.Println(len(w.GetCurrencyPair("ETH_STEEM")))
 	}
-	fmt.Println("Started")
+	fmt.Println("Opened a ticket socket and order socket towards poloniex")
 
 	<-ts.RecieveDone
 	log.Println("[INFO]", "bye!")
