@@ -16,10 +16,16 @@ func main() {
 		panic("Error creating ticker stream, see log")
 	}
 
-	err = streams.NewOrderStream("BTC_XMR")
-	if err != nil {
+	os, errOrderStream := streams.NewOrderStream("BTC_XMR")
+	if errOrderStream != nil {
 		log.Println("[ERROR]", err)
 		panic("Error creating order stream, see log")
+	}
+
+	orderChan := os.Subscribe().C
+	for range time.NewTicker(time.Second * 1).C {
+		order := <-orderChan
+		fmt.Println(order)
 	}
 
 	w := window.New(ts.Subscribe().C, time.Minute)
