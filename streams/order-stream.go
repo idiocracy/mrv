@@ -53,8 +53,11 @@ func handleOrder(b OrderBroadcaster) turnpike.EventHandler {
 				fmt.Println("Error encoding JSON")
 				return
 			}
-			json.Unmarshal([]byte(str), &order)
-			fmt.Println("THE SOURCE", order)
+			errUnmarshal := json.Unmarshal([]byte(str), &order)
+			if errUnmarshal != nil {
+				fmt.Println(errUnmarshal)
+			}
+			fmt.Println(order)
 			b.Write(order)
 		}
 	}

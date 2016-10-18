@@ -23,7 +23,7 @@ func main() {
 	}
 
 	orderChan := os.Subscribe().C
-	for range time.NewTicker(time.Second * 1).C {
+	for range time.NewTicker(time.Millisecond * 100).C {
 		order := <-orderChan
 		fmt.Println(order)
 	}
