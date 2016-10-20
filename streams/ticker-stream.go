@@ -7,12 +7,6 @@ import (
 	"gopkg.in/jcelliott/turnpike.v2"
 )
 
-const (
-	poloniexWebsocketAddress = "wss://api.poloniex.com"
-	poloniexWebsocketRealm   = "realm1"
-	poloniexWebsocketTopic   = "ticker"
-)
-
 // TickerStream holds state for a Poloniex 'ticker' firehose
 type TickerStream struct {
 	broadcaster TickerBroadcaster

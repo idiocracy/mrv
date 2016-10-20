@@ -13,6 +13,19 @@ func main() {
 	ts, err := streams.NewTickerStream()
 	if err != nil {
 		log.Println("[ERROR]", err)
+		panic("Error creating ticker stream, see log")
+	}
+
+	os, errOrderStream := streams.NewOrderStream("BTC_XMR")
+	if errOrderStream != nil {
+		log.Println("[ERROR]", err)
+		panic("Error creating order stream, see log")
+	}
+
+	orderChan := os.Subscribe().C
+	for range time.NewTicker(time.Millisecond * 100).C {
+		order := <-orderChan
+		fmt.Println(order)
 	}
 
 	w := window.New(ts.Subscribe().C, time.Minute)
@@ -22,6 +35,7 @@ func main() {
 		fmt.Println(w.ListCurrencyPairs())
 		fmt.Println(len(w.GetCurrencyPair("ETH_STEEM")))
 	}
+	fmt.Println("Opened a ticket socket and order socket towards poloniex")
 
 	<-ts.RecieveDone
 	log.Println("[INFO]", "bye!")
