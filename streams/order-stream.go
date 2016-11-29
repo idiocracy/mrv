@@ -57,7 +57,6 @@ func handleOrder(b OrderBroadcaster) turnpike.EventHandler {
 			if errUnmarshal != nil {
 				fmt.Println(errUnmarshal)
 			}
-			fmt.Println(order)
 			b.Write(order)
 		}
 	}

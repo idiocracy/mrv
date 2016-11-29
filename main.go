@@ -21,11 +21,25 @@ func main() {
 		log.Println("[ERROR]", err)
 		panic("Error creating order stream, see log")
 	}
+	//
+	// orderChan := os.Subscribe().C
+	// for range time.NewTicker(time.Millisecond * 100).C {
+	// 	order := <-orderChan
+	// 	fmt.Println(order)
+	// }
 
-	orderChan := os.Subscribe().C
-	for range time.NewTicker(time.Millisecond * 100).C {
-		order := <-orderChan
-		fmt.Println(order)
+	wo := window.NewOrderWindow(os.Subscribe().C, time.Minute, "BTC_XMR")
+
+	for range time.NewTicker(time.Second * 1).C {
+		fmt.Println("-------------------------")
+		fmt.Println(wo.GetOrdersFor("buy"))
+		fmt.Println("-------------------------")
+		fmt.Println(wo.GetOrdersFor("sell"))
+		fmt.Println("-------------------------")
+		// fmt.Println(wo.GetOrdersFor("bid"))
+		// fmt.Println("-------------------------")
+		// fmt.Println(wo.GetOrdersFor("ask"))
+		// fmt.Println("-------------------------")
 	}
 
 	w := window.New(ts.Subscribe().C, time.Minute)
